@@ -1,0 +1,49 @@
+// Builds with:
+// protoc --go_out=plugins=grpc:. *.proto
+
+syntax = "proto3";
+
+//option go_package = "btools/protoc";
+package btools;
+import "annotations.proto";
+// // The greeting service definition.
+// service Greeter {
+//   // Sends a greeting
+//   rpc SayHello (HelloRequest) returns (HelloReply) {};
+//   rpc SayGoodbye (GoodbyeRequest) returns (GoodbyeReply) {}
+// }
+
+// The greeting service definition.
+service BtoolsManager {
+  // Sends a greeting
+  rpc DdsCheckClientDoc (DdsCheckRequest) 
+    returns (DdsCheckReply) {};
+
+  rpc Echo (EchoMessage) 
+    returns (EchoMessage) {
+      option (google.api.http) = {
+        post: "/v1/echo"
+        body: "*"
+      };
+    };
+
+  rpc DdsCheckContractorDoc (DdsCheckRequest) returns (DdsCheckReply) {}
+}
+
+// The request message containing the user's name.
+message DdsCheckRequest {
+  int32 projno = 1;
+  int32 docno = 2;
+  string name = 3;
+  bool res = 4;
+}
+
+// The response message containing the greetings
+message DdsCheckReply {
+  string message = 1;
+  bool res = 2;
+}
+
+message EchoMessage {
+  string value =1;
+}
